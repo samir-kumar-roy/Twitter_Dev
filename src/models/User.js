@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -15,6 +16,16 @@ const userSchema = new mongoose.Schema({
         required: true
     }
 });
+userSchema.pre('save', function (next) {
+    console.log("this from user model", this);
+    const user = this;
+    const SALT = bcrypt.genSaltSync(9);
+    console.log("Salt ", SALT);
+    console.log('normal password ', user.password);
+    const encryptedPassword = bcrypt.hashSync(user.password, SALT);
+    user.password = encryptedPassword;
+    next();
+})
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
