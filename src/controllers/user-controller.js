@@ -1,9 +1,9 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const UserService = require('../services/user-service');
 const userService = new UserService();
 
 const signupUser = async (req, res) => {
-    console.log('consroller hit');
-    console.log(req.body);
     try {
         const response = await userService.signup({
             email: req.body.email,
@@ -27,6 +27,26 @@ const signupUser = async (req, res) => {
     }
 }
 
+const loginUser = async (req, res) => {
+    try {
+        const token = await userService.signin(req.body);
+        return res.status(200).json({
+            success: true,
+            message: 'Successfully logged in',
+            data: token,
+            err: {}
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Something went wrong',
+            data: {},
+            success: false,
+            err: error
+        });
+    }
+}
+
 module.exports = {
-    signupUser
+    signupUser,
+    loginUser
 }
