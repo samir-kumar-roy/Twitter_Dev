@@ -22,14 +22,6 @@ const startServer = () => {
         console.log(`Server is running on port ${PORT}`);
         await connect(); // for connecting to mongodb
 
-        /* const userRepository = new UserRepository();
-        const tweetRepo = new TweetRepository();
-        const tweet = await tweetRepo.getAll(0, 10);
-        const user = await userRepository.getAll();
-
-        const likeService = new LikeService();
-        await likeService.toggleLike(tweet[0].id, 'Tweet', user[0].id); */
-
     });
 }
 
